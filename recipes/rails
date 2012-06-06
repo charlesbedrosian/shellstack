@@ -17,26 +17,41 @@ function defaults_rails {
 }
 
 function install_rails {
+log "*** install_basic ***"
 	install_basic
+log "*** install_ruby ***"
     install_ruby
+log "*** install_nodejs ***"	
 	install_nodejs
+log "*** install_gemrc ***"	
 	create_gemrc
+log "*** update_rubygems ***"	
 	update_rubygems
+log "*** install_rails ***"	
 	install_rails
+log "*** install_passenger_with_nginx ***"	
 	install_passenger_with_nginx
+log "*** set_rails_production_environment ***"		
     set_rails_production_environment
+log "*** install_bundler ***"		
 	install_bundler
+log "*** install_bluepill ***"			
 	install_bluepill
+log "*** install_redis ***"				
 	install_redis
         case "$DATABASE_TYPE" in
           mysql)
+log "*** install_mysql ***"				
             install_mysql $DATABASE_PASSWORD && tune_mysql 40
             ;;
           pgsql)
+log "*** install_postgresql ***"				
             install_postgresql $DATABASE_PASSWORD
             ;;
           *)
+log "*** install_mysql ***"				
             install_mysql $DATABASE_PASSWORD && tune_mysql 40
+log "*** install_postgresql ***"				
             install_postgresql $DATABASE_PASSWORD
             ;;
         esac
