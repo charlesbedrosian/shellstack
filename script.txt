@@ -33,4 +33,4 @@ apt-get install -y git-core
 git clone git://github.com/charlesbedrosian/shellstack.git
 shellstack/install rails
 
-log "Shellstack completed!!!"
+echo "Shellstack completed!!!"
