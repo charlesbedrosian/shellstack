@@ -10,6 +10,7 @@ function log {
 		return 1;
 	fi
         echo "`date '+%D %T'` -  $1"
+		echo "`date '+%D %T'` -  $1" >> /root/status.log
 }
 
 function ask {

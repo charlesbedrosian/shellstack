@@ -6,6 +6,7 @@
 
 function install_ruby
 {
+	log "Compiling and installing Ruby"
     cd /usr/local/src
     RUBY_VERSION=ruby-1.9.2-$RUBY_RELEASE
     wget ftp://ftp.ruby-lang.org/pub/ruby/1.9/$RUBY_VERSION.tar.gz
@@ -17,6 +18,7 @@ function install_ruby
 }
 
 function create_gemrc {
+  log "Creating .gemrc file"
   cat > ~/.gemrc << EOF
 verbose: true
 bulk_treshold: 1000
@@ -31,10 +33,12 @@ EOF
 }
 
 function update_rubygems {
+  log "Updating rubygems"
   gem update --system
 }
 
 function set_rails_production_environment {
+  log "Setting rails environment to $R_ENV"
   cat >> /etc/environment << EOF
 RAILS_ENV=$R_ENV
 RACK_ENV=$R_ENV
@@ -42,5 +46,11 @@ EOF
 }
 
 function install_bundler {
+  log "Installing bundler"
   gem install bundler
+}
+
+function install_rails {
+	log "Installing rails"
+	gem install rails
 }
