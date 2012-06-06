@@ -31,7 +31,7 @@ function add_ssh_key {
         
 	# if USER_SSH_KEY contains a URL instead of an actual key then
         # pull it from a remote and cat it into the authorized_keys file
-	if [[ $X =~ https?://|ftp:// ]]; then 
+	if [[ $2 =~ https?://|ftp:// ]]; then 
 		log "Loading ssh authorized_keys from remote source $2"
 		# pull authorized_keys file from a remote url defined as USER_SSH_KEY	
 		wget $2 --output-file=/tmp/ss-ssh.pub
