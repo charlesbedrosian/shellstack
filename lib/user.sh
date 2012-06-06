@@ -28,6 +28,15 @@ function add_ssh_key {
 	USER_HOME=$(user_home "$1")
 	sudo -u "$1" mkdir "$USER_HOME/.ssh"
 	sudo -u "$1" touch "$USER_HOME/.ssh/authorized_keys"
-	sudo -u "$1" echo "$2" >> "$USER_HOME/.ssh/authorized_keys"
+        
+	# if USER_SSH_KEY contains a URL instead of an actual key then
+        # pull it from a remote and cat it into the authorized_keys file
+	if [[ $X =~ https?://|ftp:// ]]; then 
+		# pull authorized_keys file from a remote url defined as USER_SSH_KEY	
+		wget $2 --output-file=/tmp/ss-ssh.pub
+		sudo -u "$1" cat /tmp/ss-ssh.pub >> /root/.ssh/authorized_keys
+	else
+		sudo -u "$1" echo "$2" >> "$USER_HOME/.ssh/authorized_keys"
+	fi
 	chmod 0600 "$USER_HOME/.ssh/authorized_keys"
 }
