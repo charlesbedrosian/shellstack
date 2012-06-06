@@ -50,7 +50,7 @@ function install_bundler {
   gem install bundler
 }
 
-function install_rails {
-	log "Installing rails"
+function install_rails_gem {
+	log "Installing rails gem"
 	gem install rails
 }

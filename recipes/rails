@@ -27,8 +27,8 @@ log "*** install_gemrc ***"
 	create_gemrc
 log "*** update_rubygems ***"	
 	update_rubygems
-log "*** install_rails ***"	
-	install_rails
+log "*** install_rails_gem ***"	
+	install_rails_gem
 log "*** install_passenger_with_nginx ***"	
 	install_passenger_with_nginx
 log "*** set_rails_production_environment ***"		
