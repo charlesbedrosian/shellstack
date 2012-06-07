@@ -3,18 +3,40 @@
 ######################
 # Ruby/RubyGem/Rails #
 ######################
+function install_rvm
+{
+	#borrowed from http://www.linode.com/stackscripts/view/?StackScriptID=2438
+	log "Installing RVM and Ruby dependencies"
+	apt-get -y install curl git-core bzip2 build-essential zlib1g-dev libssl-dev
+
+	log "Installing RVM system-wide"
+	curl -L get.rvm.io | sudo bash -s stable
+
+	cat >> /etc/profile <<'EOF'
+# Load RVM if it is installed,
+#  first try to load  user install
+#  then try to load root install, if user install is not there.
+if [ -s "$HOME/.rvm/scripts/rvm" ] ; then
+  . "$HOME/.rvm/scripts/rvm"
+elif [ -s "/usr/local/rvm/scripts/rvm" ] ; then
+  . "/usr/local/rvm/scripts/rvm"
+fi
+EOF
+
+	source /etc/profile
+}
 
 function install_ruby
 {
-	log "Compiling and installing Ruby"
-    cd /usr/local/src
-    RUBY_VERSION=ruby-1.9.2-$RUBY_RELEASE
-    wget ftp://ftp.ruby-lang.org/pub/ruby/1.9/$RUBY_VERSION.tar.gz
-    tar xzf $RUBY_VERSION.tar.gz
-    cd $RUBY_VERSION
-    ./configure
-    make
-    make install
+	#borrowed from http://www.linode.com/stackscripts/view/?StackScriptID=2438
+	log "Installing Ruby 1.9.3-$RUBY_RELEASE"
+
+	rvm install 1.9.3-$RUBY_RELEASE
+	rvm use 1.9.3-$RUBY_RELEASE --default
+
+	log "Updating Ruby gems"
+	set_production_gemrc
+	gem update --system
 }
 
 function create_gemrc {

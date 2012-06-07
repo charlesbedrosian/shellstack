@@ -1,41 +1,19 @@
 #!/bin/bash
 
-function install_passenger_with_nginx {
-  gem install passenger
-  PASSENGER_PATH=`passenger-config --root`/ext/nginx
-  cd /usr/local/src
-  NGINX_VERSION="nginx-$NGINX_RELEASE"
-  wget "http://nginx.org/download/$NGINX_VERSION.tar.gz"
-  tar xzf $NGINX_VERSION.tar.gz
-  cd $NGINX_VERSION
-  ./configure --prefix=/usr/local --sbin-path=/usr/local/sbin --conf-path=/etc/nginx/nginx.conf --with-http_ssl_module --with-http_gzip_static_module --add-module=$PASSENGER_PATH --with-http_sub_module
-  cp -r conf /etc/nginx
-  make && make install
-  wget "http://library.linode.com/assets/660-init-deb.sh" -O /etc/init.d/nginx
-  sed -i 's/\/opt\/nginx/\/usr\/local/g' /etc/init.d/nginx
-  chmod +x /etc/init.d/nginx
-  /usr/sbin/update-rc.d -f nginx defaults
-  mkdir -p /var/log/nginx /etc/nginx/conf.d /etc/nginx/sites-available /etc/nginx/sites-enabled
-  cat <<EOF > /etc/logrotate.d/nginx
-/var/log/nginx/*.log {
-        daily
-        missingok
-        rotate 52
-        compress
-        defaultslaycompress
-        notifempty
-        create 0640 www-data adm
-        sharedscripts
-        postrotate
-                [ ! -f /var/run/nginx.pid ] || kill -USR1 \`cat /var/run/nginx.pid\`
-        endscriptript
-}
-EOF
-  cat <<EOF > /etc/nginx/conf.d/passenger.conf
+function install_passenger_with_nginx_via_rvm
+{
+	log "Instaling Phusion Passenger and Nginx"
+	gem install passenger
+	passenger-install-nginx-module --auto --auto-download --prefix=/opt/nginx
+
+	log "Setting up Nginx to start on boot and rotate logs"
+	set_nginx_boot_up
+		
+ cat <<EOF > /opt/nginx/conf.d/passenger.conf
 passenger_root /usr/local/lib/ruby/gems/1.9.1/gems/passenger-3.0.11;
 passenger_ruby /usr/local/bin/ruby;
 EOF
-  cat <<EOF > /etc/nginx/nginx.conf
+  cat <<EOF > /opt/nginx/nginx.conf
 user www-data;
 worker_processes 6;
 pid /var/run/nginx.pid;
@@ -49,17 +27,17 @@ http {
   keepalive_timeout 65;
   types_hash_max_size 2048;
 
-  include /etc/nginx/mime.types;
+  include /opt/nginx/mime.types;
   default_type application/octet-stream;
 
   access_log /var/log/nginx/access.log;
   error_log /var/log/nginx/error.log;
 
-  include /etc/nginx/conf.d/*.conf;
-  include /etc/nginx/sites-enabled/*;
+  include /opt/nginx/conf.d/*.conf;
+  include /opt/nginx/sites-enabled/*;
 }
 EOF
-  cat <<EOF > /etc/nginx/sites-available/default
+  cat <<EOF > /opt/nginx/sites-available/default
 server {
   listen 80;
   server_name $DOMAIN_NAME;
@@ -78,6 +56,6 @@ server {
   gzip_disable “MSIE [1-6].(?!.*SV1)”;
 }
 EOF
-  ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-  /etc/init.d/nginx start
+  ln -s /opt/nginx/sites-available/default /opt/nginx/sites-enabled/default
+  /etc/init.d/nginx start	
 }

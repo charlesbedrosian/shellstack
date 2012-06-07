@@ -7,52 +7,70 @@ source "$LIB_PATH/bluepill.sh"
 source "$LIB_PATH/redis.sh"
 source "$LIB_PATH/mysql.sh"
 source "$LIB_PATH/postgresql.sh"
+source "$LIB_PATH/chef.sh"
 
 function defaults_rails {
   DATABASE_TYPE="mysql"
   DATABASE_PASSWORD="mydbs3cr3t"
   R_ENV="production"
-  RUBY_RELEASE="p290"
-  REDIS_VERSION="2.2.4"
+  RUBY_RELEASE="p125"
+  REDIS_VERSION="2.4.14"
 }
 
 function install_rails {
-log "*** install_basic ***"
+
+	log "*** install_basic ***"
 	install_basic
-log "*** install_ruby ***"
+	
+	log "*** install_ruby ***"
     install_ruby
-log "*** install_nodejs ***"	
+	
+	log "*** install_rvm ***"
+	install_rvm
+	
+	log "*** install_nodejs ***"	
 	install_nodejs
-log "*** install_gemrc ***"	
+	
+	log "*** install_gemrc ***"	
 	create_gemrc
-log "*** update_rubygems ***"	
+	
+	log "*** update_rubygems ***"	
 	update_rubygems
-log "*** install_rails_gem ***"	
+	
+	log "*** install_rails_gem ***"	
 	install_rails_gem
-log "*** install_passenger_with_nginx ***"	
+	
+	log "*** install_passenger_with_nginx ***"	
 	install_passenger_with_nginx
-log "*** set_rails_production_environment ***"		
+	
+	log "*** set_rails_production_environment ***"		
     set_rails_production_environment
-log "*** install_bundler ***"		
+	
+	log "*** install_bundler ***"		
 	install_bundler
-log "*** install_bluepill ***"			
+	
+	log "*** install_bluepill ***"			
 	install_bluepill
-log "*** install_redis ***"				
+	
+	log "*** install_chef ***"
+	install_chef
+	
+	log "*** install_redis ***"				
 	install_redis
-        case "$DATABASE_TYPE" in
-          mysql)
-log "*** install_mysql ***"				
-            install_mysql $DATABASE_PASSWORD && tune_mysql 40
-            ;;
-          pgsql)
-log "*** install_postgresql ***"				
-            install_postgresql $DATABASE_PASSWORD
-            ;;
-          *)
-log "*** install_mysql ***"				
-            install_mysql $DATABASE_PASSWORD && tune_mysql 40
-log "*** install_postgresql ***"				
-            install_postgresql $DATABASE_PASSWORD
-            ;;
-        esac
+	case "$DATABASE_TYPE" in
+	  mysql)
+		log "*** install_mysql ***"				
+		install_mysql $DATABASE_PASSWORD && tune_mysql 40
+		;;
+	  pgsql)
+		log "*** install_postgresql ***"				
+		install_postgresql $DATABASE_PASSWORD
+		;;
+	  *)
+		log "*** install_mysql ***"				
+		install_mysql $DATABASE_PASSWORD && tune_mysql 40
+		log "*** install_postgresql ***"				
+		install_postgresql $DATABASE_PASSWORD
+		;;
+	esac
 }
