@@ -35,7 +35,7 @@ function add_ssh_key {
 		log "Loading ssh authorized_keys from remote source $2"
 		# pull authorized_keys file from a remote url defined as USER_SSH_KEY	
 		wget $2 --output-file=/tmp/ss-ssh.pub
-		sudo -u "$1" cat /tmp/ss-ssh.pub >> /root/.ssh/authorized_keys
+		sudo -u "$1" cat /tmp/ss-ssh.pub >> "$USER_HOME/.ssh/authorized_keys"
 	else
 		log "Setting ssh authorized_keys content"
 		sudo -u "$1" echo "$2" >> "$USER_HOME/.ssh/authorized_keys"
