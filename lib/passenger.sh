@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#borrowed from http://www.linode.com/stackscripts/view/?StackScriptID=2438
 function install_passenger_with_nginx_via_rvm
 {
 	log "Instaling Phusion Passenger and Nginx"

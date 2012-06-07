@@ -1,4 +1,6 @@
 #!/bin/bash
+
+#borrowed from http://www.linode.com/stackscripts/view/?StackScriptID=2438
 function install_chef {
 	log "Installing Chef"
 	gem install chef
