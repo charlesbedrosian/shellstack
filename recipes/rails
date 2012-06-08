@@ -41,7 +41,7 @@ function install_rails {
 	install_rails_gem
 	
 	log "*** install_passenger_with_nginx ***"	
-	install_passenger_with_nginx
+	install_passenger_with_nginx_via_rvm
 	
 	log "*** set_rails_production_environment ***"		
     set_rails_production_environment
