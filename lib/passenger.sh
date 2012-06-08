@@ -2,7 +2,7 @@
 
 #borrowed from http://www.linode.com/stackscripts/view/?StackScriptID=2438
 function set_nginx_boot_up {
-  wget "http://library.linode.com/web-servers/nginx/installation/reference/init-deb.sh" -O /etc/init.d/nginx
+  wget "http://library.linode.com/assets/660-init-deb.sh" -O /etc/init.d/nginx
   chmod +x /etc/init.d/nginx
   /usr/sbin/update-rc.d -f nginx defaults
   cat > /etc/logrotate.d/nginx << EOF
