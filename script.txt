@@ -35,5 +35,7 @@ chmod 744 -R shellstack
 
 shellstack/install rails
 
+restartServices
+
 echo "Shellstack completed!!!"
 echo "*** Shellstack completed!!! ***" >> status.log
