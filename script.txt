@@ -21,7 +21,7 @@
 # <UDF name="database_type" oneof="mysql,pgsql,both" Label="Select which database to install" default="both" />
 # <UDF name="database_password" Label="MySQL/PgSQL root Password" />
 # <UDF name="r_env" Label="Rails/Rack environment to run" default="production" />
-# <UDF name="ruby_release" Label="Ruby 1.9.3 Release" default="p125" example="p125" />
+# <UDF name="ruby_release" Label="Ruby 1.9.3 Release" default="p194" example="p194" />
 # <UDF name="redis_version" Label="Redis version" default="2.4.14" example="2.4.14" />
 
 exec &> /root/shellstack.log

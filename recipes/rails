@@ -13,7 +13,7 @@ function defaults_rails {
   DATABASE_TYPE="mysql"
   DATABASE_PASSWORD="mydbs3cr3t"
   R_ENV="production"
-  RUBY_RELEASE="p125"
+  RUBY_RELEASE="p194"
   REDIS_VERSION="2.4.14"
 }
 
@@ -21,13 +21,13 @@ function install_rails {
 
 	log "*** install_basic ***"
 	install_basic
-	
-	log "*** install_ruby ***"
-    install_ruby
-	
+
 	log "*** install_rvm ***"
 	install_rvm
 	
+	log "*** install_ruby ***"
+    install_ruby
+		
 	log "*** install_nodejs ***"	
 	install_nodejs
 	
