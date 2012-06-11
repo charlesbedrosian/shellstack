@@ -13,7 +13,7 @@
 # - setup reverse DNS on Linode control panel
 # - run cap production deploy:setup to configure initial files
 #
-# <UDF name="host_name" Label="Server's hostname" default="appserver" />
+# <UDF name="host_name" Label="Server's hostname - must be FQDN for Postfix" default="appserver" />
 # <UDF name="domain_name" Label="Type the domain(s) name(s) for nginx config" default="localhost" />
 # <UDF name="user_name" Label="Name of deployment user" default="app" />
 # <UDF name="user_password" Label="Password for deployment user" />

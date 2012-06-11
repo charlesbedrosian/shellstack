@@ -22,6 +22,9 @@ function install_rails {
 	log "*** install_basic ***"
 	install_basic
 
+	log "*** postfix_install_loopback_only ***"
+	postfix_install_loopback_only
+	
 	log "*** install_rvm ***"
 	install_rvm
 	
